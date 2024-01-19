@@ -1,6 +1,12 @@
 #' Removes everything within a sphere
 #'  of the defined quantile of the vector norm.
-ca_sphere <- function(x, qcutoff = 0.8) {
+#'
+#' @param x matrix of row vectors
+#' @param qcutoff quantile.
+#'
+#' @returns
+#' Matrix of the vectors longer than the defined cutoff.
+sphere_cutoff <- function(x, qcutoff = 0.8) {
     xn <- row_norm(x)
     q <- quantile(xn, qcutoff)
     x <- x[xn > q, ]
