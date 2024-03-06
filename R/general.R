@@ -18,8 +18,21 @@ nan_idxs <- function(x, out = "indx") {
     return(idxs)
 }
 
-
 rand_idx <- function(X, k) {
     idxs <- sample(seq_len(nrow(X)), size = k)
     return(idxs)
+}
+
+#' Convert a factor to a numeric.
+#' @details
+#' Assumes that the factors are numbers such as "1".
+#' @param f A vector of factors.
+#' @returns
+#' The factors converted to numbers.
+f2n <- function(f) {
+    f <- as.numeric(as.character(f))
+    stopifnot(is.numeric(f))
+
+    return(f)
+
 }
