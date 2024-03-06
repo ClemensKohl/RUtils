@@ -13,6 +13,23 @@ sphere_cutoff <- function(x, qcutoff = 0.8) {
     return(x)
 }
 
+#' Returns the indices of all points with a norm outside of a sphere
+#'  with radius of the defined quantile of the vector norm.
+#'
+#' @param x matrix of row vectors
+#' @param qcutoff quantile.
+#'
+#' @returns
+#' Indices of points lying outside of sphere
+ca_sphere_idx <- function(x, qcutoff = 0.8) {
+
+    xn <- row_norm(x)
+    q <- quantile(xn, qcutoff)
+    idx <- which(xn > q)
+
+    return(idx)
+}
+
 
 #' prin_coords: principal coordinates (row-vectors)
 #' D: singular vectors.

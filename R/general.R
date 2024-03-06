@@ -17,3 +17,9 @@ nan_idxs <- function(x, out = "indx") {
     }
     return(idxs)
 }
+
+
+rand_idx <- function(X, k) {
+    idxs <- sample(seq_len(nrow(X)), size = k)
+    return(idxs)
+}
