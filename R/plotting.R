@@ -1,5 +1,12 @@
 #' Plots a heatmap ordered by cell and gene clusters of the logcounts.
-plot_hm <- function(sce, cell_clusters, gene_clusters) {
+plot_hm <- function(
+  sce,
+  cell_clusters,
+  gene_clusters,
+  show_column_title = character(0),
+  show_row_title = character(0),
+  row_title_rot = 90
+) {
     require(SingleCellExperiment)
     require(scran)
     require(ComplexHeatmap)
@@ -85,8 +92,11 @@ plot_hm <- function(sce, cell_clusters, gene_clusters) {
         use_raster = FALSE,
         row_split = gcs,
         column_split = ccs,
+        column_title = show_column_title,
         column_title_gp = gpar(fontsize = 14),
-        row_title_gp = gpar(fontsize = 14)
+        row_title = show_row_title,
+        row_title_gp = gpar(fontsize = 14),
+        row_title_rot = row_title_rot
     )
 
     return(hm)

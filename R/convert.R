@@ -19,8 +19,8 @@ rad2deg <- function(x) {
 #' An object of type "Biclust".
 #'
 #' @export
-bic_to_biclust <- function(cell_clusters, gene_clusters, params = NULL) {
-    require("biclustlib")
+bic_to_biclust <- function(cell_clusters, gene_clusters, params = list()) {
+    require("biclust")
 
     ctypes <- sort(unique(cell_clusters))
     gtypes <- sort(unique(gene_clusters))
@@ -41,9 +41,9 @@ bic_to_biclust <- function(cell_clusters, gene_clusters, params = NULL) {
     }
 
     rownames(row_x_number) <- names(gene_clusters)
-    colnames(row_x_number) <- paste0("BC", bitypes)
+    colnames(row_x_number) <- paste0("BC_", bitypes)
 
-    rownames(number_x_col) <- paste0("BC", bitypes)
+    rownames(number_x_col) <- paste0("BC_", bitypes)
     colnames(number_x_col) <- names(cell_clusters)
 
     bic <- new("Biclust",
