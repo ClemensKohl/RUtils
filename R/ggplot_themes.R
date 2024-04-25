@@ -1,6 +1,8 @@
 
 # Adapted from cowplot::theme_nothing
 # TODO: Add documentation
+#
+#' @exports
 theme_blank <- function() {
     ggplot2::theme_void() %+replace%
         theme(
@@ -85,6 +87,8 @@ theme_blank <- function() {
 
 # Adapted from cowplot::theme_nothing
 # TODO: Add documentation
+#
+#' @exports
 theme_blank <- function() {
     ggplot2::theme_void() %+replace%
         theme(
@@ -167,6 +171,8 @@ theme_blank <- function() {
 
 # FIXME: Improve color palette
 # TODO: Add documentation
+#
+#' @exports
 scale_color_mpimg <- function(name = "mpimg", ...) {
 
   mpi_colors <- c(

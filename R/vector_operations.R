@@ -1,4 +1,5 @@
 #' Calculate the norm of a row-vector.
+#' @exports
 row_norm <- function(x) {
     if (is.matrix(x)) {
         norm <- sqrt(rowSums(x^2))
@@ -12,6 +13,7 @@ row_norm <- function(x) {
 }
 
 #' Get distance of points to a line.
+#' @exports
 dist_to_line <- function(X, lines) {
     x_norm <- row_norm(X)
 
@@ -27,12 +29,14 @@ dist_to_line <- function(X, lines) {
 }
 
 #' Get euclidean distance between two vectors.
+#' @exports
 euclidean_dist <- function(a, b) {
     dist <- sqrt(sum((a - b)^2))
     return(dist)
 }
 
 #' Get cosine between row-vectors A and B.
+#' @exports
 get_cosine <- function(A, B) {
     norma <- row_norm(A)
     normb <- row_norm(B)
@@ -51,6 +55,7 @@ get_cosine <- function(A, B) {
 }
 
 #' Get angle between row-vectors A and B.
+#' @exports
 get_angle <- function(A, B) {
     angle <- acos(get_cosine(A, B))
     return(angle)
@@ -58,6 +63,7 @@ get_angle <- function(A, B) {
 
 
 # vectorized version of the TS-SS
+#' @exports
 ts_ss <- function(A, B) {
     require("pdist")
 

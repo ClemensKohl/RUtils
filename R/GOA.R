@@ -6,6 +6,7 @@
 #' @param org Short name of the organism. "mm" for mouse, "hs" for human.
 #' @returns
 #' data frame with columns "cell_type" and "gene".
+#' @exports
 load_gene_set <- function(set = "CellMarker",
                           org) {
 
@@ -39,6 +40,7 @@ load_gene_set <- function(set = "CellMarker",
 #' Set to Inf if you want to keep all genes.
 #' @returns
 #' Filtered list of gene sets.
+#' @exports
 filter_gene_sets <- function(gene_sets,
                              min_size = 10,
                              max_size = 500) {
@@ -67,6 +69,7 @@ filter_gene_sets <- function(gene_sets,
 #'
 #' @returns
 #' A named list with gene sets as names and genes as vectors.
+#' @exports
 format_gene_sets <- function(gene_sets) {
 
     # Input gene_sets assumed to be a long format data frame
@@ -254,13 +257,14 @@ per_cluster_goa <- function(gene_clusters,
 }
 
 #' turns string of a ratio in a number.
-#' @description 
+#' @description
 #' Adapted from DOSE::parse_ratio.
 #'
 #' @param ratio a string of the form "1/2"
 #'
 #' @returns
 #' The numeric value the string represented.
+#' @exports
 parse_ratio <- function(ratio) {
 
     ratio <- sub("^\\s*", "", as.character(ratio))

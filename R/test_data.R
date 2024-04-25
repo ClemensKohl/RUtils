@@ -1,4 +1,5 @@
 #' Download and preprocess Zeisel brain data.
+#' @export
 get_zeisel_brain <- function(subset_by_MHVG = FALSE) {
     require(SingleCellExperiment)
     require(scran)
@@ -39,7 +40,7 @@ get_zeisel_brain <- function(subset_by_MHVG = FALSE) {
     top_genes <- scran::getTopHVGs(dec, prop = 0.8)
     sce <- scran::fixedPCA(sce, subset.row = top_genes)
     sce <- scater::runUMAP(sce, dimred = "PCA")
-    
+
     if (isTRUE(subset_by_MHVG)) {
         sce <- sce[top_genes, ]
     }

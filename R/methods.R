@@ -1,5 +1,6 @@
 #' Total Least Squares Regression for a set of points.
 #' @param points A matrix of points. Rows are observations.
+#' @exports
 tls_regression <- function(points) {
     require(irlba)
 
@@ -15,6 +16,7 @@ tls_regression <- function(points) {
 }
 
 #' Get slope of a set of lines.
+#' @exports
 slope <- function(lines, dims = 1:2) {
     if (is.null(nrow(lines))) {
         d <- lines[dims[2]] / lines[dims[1]]
