@@ -217,7 +217,7 @@ preprocess_data_set <- function(
     sce <- scran::denoisePCA(sce, technical = sce.dec, subset.row = sce.top)
     sce <- scater::runUMAP(sce, dimred = "PCA")
 
-    p_umap <- scater::plotUMAP(sce, colour_by = truth)
+    plots[["p_umap"]] <- scater::plotUMAP(sce, colour_by = truth)
 
     # doublet detection
     sce <- scDblFinder::scDblFinder(sce, clusters = clust.sce)
