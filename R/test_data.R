@@ -48,6 +48,7 @@ get_zeisel_brain <- function(subset_by_MHVG = FALSE) {
     return(sce)
 }
 
+#' Preprocess any SingleCellExperiment
 #' @export
 preprocess_data_set <- function(
     sce,
