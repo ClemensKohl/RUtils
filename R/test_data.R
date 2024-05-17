@@ -61,18 +61,27 @@ preprocess_data_set <- function(
     truth = NULL,
     return_plots = FALSE) {
 
+    # require(SingleCellExperiment)
+    # require(scater)
+    # require(scran)
+    # require(scuttle)
+    # require("AnnotationDbi")
+    # require("org.Hs.eg.db")
+    # require("org.Mm.eg.db")
+    # require(scDblFinder)
+    # require(Seurat)
+
     plots <- list()
 
     if (is(sce, "Seurat")) {
-        sce <- SingleCellExperiment(
-            list(counts = GetAssayData(sce,
+        sce <- SingleCellExperiment::SingleCellExperiment(
+            list(counts = Seurat::GetAssayData(sce,
                 slot = "count",
                 assay = "RNA"
             )),
             colData = sce@meta.data
         )
     }
-
 
     # Remove genes not expressed in any cells
     sce <- sce[Matrix::rowSums(counts(sce)) > 0, ]
@@ -84,11 +93,11 @@ preprocess_data_set <- function(
         rownames(sce) <- names
 
         if (!isEmpty(grep("ENSG", template))) {
-            org.db <- org.Hs.eg.db
+            org.db <- org.Hs.eg.db::org.Hs.eg.db
         }
 
         if (!isEmpty(grep("ENSMU", template))) {
-            org.db <- org.Mm.eg.db
+            org.db <- org.Mm.eg.db::org.Mm.eg.db
             org <- "mm"
         }
 
@@ -104,23 +113,23 @@ preprocess_data_set <- function(
     # Filter based on QC metrics
 
     if (org == "hs") {
-        mt_genes <- grepl("^MT-", rowData(sce)$SYMBOL)
+        mt_genes <- base::grepl("^MT-", rowData(sce)$SYMBOL)
     } else if (org == "mm") {
-        mt_genes <- grepl("^mt-", rowData(sce)$SYMBOL)
+        mt_genes <- base::grepl("^mt-", rowData(sce)$SYMBOL)
     }
 
     if (isTRUE(mt_filter)) {
-        qc_df <- perCellQCMetrics(sce, subsets = list(Mito = mt_genes))
+        qc_df <- scuttle::perCellQCMetrics(sce, subsets = list(Mito = mt_genes))
 
-        reasons <- perCellQCFilters(qc_df,
+        reasons <- scuttle::perCellQCFilters(qc_df,
             sum.field = "sum",
             detected.field = "detected",
             sub.fields = c("subsets_Mito_percent")
         )
     } else {
-        qc_df <- perCellQCMetrics(sce, subsets = list(Mito = mt_genes))
+        qc_df <- scuttle::perCellQCMetrics(sce, subsets = list(Mito = mt_genes))
 
-        reasons <- perCellQCFilters(qc_df,
+        reasons <- scuttle::perCellQCFilters(qc_df,
             sum.field = "sum",
             detected.field = "detected",
             sub.fields = NULL
@@ -129,95 +138,94 @@ preprocess_data_set <- function(
 
     # QC plots
 
-    colData(sce) <- cbind(colData(sce), qc_df)
+    SummarizedExperiment::colData(sce) <- cbind(SummarizedExperiment::colData(sce), qc_df)
     sce$discard <- reasons$discard
 
     if (!is.null(truth)) {
-        plots[["p_counts"]] <- plotColData(sce, x = truth, y = "sum", colour_by = "discard") +
-            scale_y_log10() +
-            ggtitle("Total count") +
-            theme(axis.text.x = element_text(angle = 90))
+        plots[["p_counts"]] <- scater::plotColData(sce, x = truth, y = "sum", colour_by = "discard") +
+            ggplot2::scale_y_log10() +
+            ggplot2::ggtitle("Total count") +
+            ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90))
 
-        plots[["p_detected"]] <- plotColData(sce, x = truth, y = "detected", colour_by = "discard") +
-            scale_y_log10() +
-            ggtitle("Detected features") +
-            theme(axis.text.x = element_text(angle = 90))
+        plots[["p_detected"]] <- scater::plotColData(sce, x = truth, y = "detected", colour_by = "discard") +
+            ggplot2::scale_y_log10() +
+            ggplot2::ggtitle("Detected features") +
+            ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90))
 
-        plots[["p_mito"]] <- plotColData(sce, x = truth, y = "subsets_Mito_percent", colour_by = "discard") +
-            ggtitle("Mito percent") +
-            theme(axis.text.x = element_text(angle = 90))
+        plots[["p_mito"]] <- scater::plotColData(sce, x = truth, y = "subsets_Mito_percent", colour_by = "discard") +
+            ggplot2::ggtitle("Mito percent") +
+            ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90))
     }
 
-    plots[["p_sumVSdetected"]] <- plotColData(sce, x = "sum", y = "detected", colour_by = "discard") +
-        ggtitle("sum vs detected")
+    plots[["p_sumVSdetected"]] <- scater::plotColData(sce, x = "sum", y = "detected", colour_by = "discard") +
+        ggplot2::ggtitle("sum vs detected")
 
-    plots[["p_hist_detected"]] <- ggplot(as.data.frame(colData(sce)), aes(x = detected)) +
-        geom_histogram(fill = "#008080") +
-        ggtitle("detected") +
-        theme_bw()
-
-
-    plots[["p_hist_sum"]] <- ggplot(as.data.frame(colData(sce)), aes(x = sum)) +
-        geom_histogram(fill = "#008080") +
-        ggtitle("sum") +
-        theme_bw()
+    plots[["p_hist_detected"]] <- ggplot2::ggplot(
+        as.data.frame(SummarizedExperiment::colData(sce)), ggplot2::aes(x = detected)
+    ) +
+        ggplot2::geom_histogram(fill = "#008080") +
+        ggplot2::ggtitle("detected") +
+        ggplot2::theme_bw()
 
 
-
+    plots[["p_hist_sum"]] <- ggplot2::ggplot(as.data.frame(SummarizedExperiment::colData(sce)), ggplot2::aes(x = sum)) +
+        ggplot2::geom_histogram(fill = "#008080") +
+        ggplot2::ggtitle("sum") +
+        ggplot2::theme_bw()
 
     # remove bad cells
     sce <- sce[, !reasons$discard]
 
     # filter out genes expressed in less than 1% cells
-    bm <- counts(sce) > 0
+    bm <- SingleCellExperiment::counts(sce) > 0
 
     ncell <- round(ncol(sce) * pct)
     label <- paste0("pct", pct)
 
-    idx <- which((rowSums(bm) > ncell))
+    idx <- which((Matrix::rowSums(bm) > ncell))
     sce <- sce[idx, ]
 
     # Normalization
-    clust.sce <- quickCluster(sce)
-    sce <- computeSumFactors(sce, cluster = clust.sce, min.mean = 0.1)
-    sce <- logNormCounts(sce)
+    clust.sce <- scran::quickCluster(sce)
+    sce <- scran::computeSumFactors(sce, cluster = clust.sce, min.mean = 0.1)
+    sce <- scuttle::logNormCounts(sce)
 
     if (isTRUE(rmbatch)) {
         if (is.null(batchcol)) {
             stop("value of parameter batchlab is missing.")
         }
-        cnt_bc <- sva::ComBat(counts(sce), batch = colData(sce)[, batchcol])
+        cnt_bc <- sva::ComBat(counts(sce), batch = SummarizedExperiment::colData(sce)[, batchcol])
         if (min(cnt_bc) < 0) {
             cnt_bc <- cnt_bc - min(cnt_bc)
         }
-        cnt_bc <- cnt_bc[rowSums(cnt_bc) > 0, colSums(cnt_bc) > 0]
-        counts(sce) <- cnt_bc
-        sce <- logNormCounts(sce)
+        cnt_bc <- cnt_bc[Matrix::rowSums(cnt_bc) > 0, Matrix::colSums(cnt_bc) > 0]
+        SingleCellExperiment::counts(sce) <- cnt_bc
+        sce <- scuttle::logNormCounts(sce)
     }
 
 
     # dim reduc.
     if (isTRUE(modPoisson)) {
-        sce.dec <- modelGeneVarByPoisson(sce)
-        sce.top <- getTopHVGs(sce.dec, prop = 0.2)
+        sce.dec <- scran::modelGeneVarByPoisson(sce)
+        sce.top <- scran::getTopHVGs(sce.dec, prop = 0.2)
     } else {
-        sce.dec <- modelGeneVar(sce)
-        sce.top <- getTopHVGs(sce.dec, prop = 0.2)
+        sce.dec <- scran::modelGeneVar(sce)
+        sce.top <- scran::getTopHVGs(sce.dec, prop = 0.2)
     }
 
 
-    sce <- denoisePCA(sce, technical = sce.dec, subset.row = sce.top)
-    sce <- runUMAP(sce, dimred = "PCA")
+    sce <- scran::denoisePCA(sce, technical = sce.dec, subset.row = sce.top)
+    sce <- scater::runUMAP(sce, dimred = "PCA")
 
-    p_umap <- plotUMAP(sce, colour_by = truth)
+    p_umap <- scater::plotUMAP(sce, colour_by = truth)
 
     # doublet detection
-    sce <- scDblFinder(sce, clusters = clust.sce)
+    sce <- scDblFinder::scDblFinder(sce, clusters = clust.sce)
     # table(sce$scDblFinder.class)
 
-    plots[["p_umap_dblscore"]] <- plotUMAP(sce, colour_by = "scDblFinder.score")
+    plots[["p_umap_dblscore"]] <- scater::plotUMAP(sce, colour_by = "scDblFinder.score")
 
-    plots[["p_umap_dblclass"]] <- plotUMAP(sce, colour_by = "scDblFinder.class")
+    plots[["p_umap_dblclass"]] <- scater::plotUMAP(sce, colour_by = "scDblFinder.class")
 
     if (isTRUE(return_plots)) {
         return(list("sce" = sce, "plots" = plots))
@@ -226,10 +234,10 @@ preprocess_data_set <- function(
 }
 
 
-# change gene names to gene symbol
+#' change gene names to gene symbol
 getSCEWithSymbols <- function(sce, keytype = "ENTREZID", org.db = org.Mm.eg.db) {
     if (keytype == "SYMBOL") {
-        rowData(sce)$SYMBOL <- rownames(sce)
+        SummarizedExperiment::rowData(sce)$SYMBOL <- rownames(sce)
         return(sce)
     }
     require("AnnotationDbi")
@@ -238,6 +246,6 @@ getSCEWithSymbols <- function(sce, keytype = "ENTREZID", org.db = org.Mm.eg.db) 
 
     geneSymbols <- mapIds(org.db, keys = rownames(sce), column = "SYMBOL", keytype = keytype, multiVals = "first")
 
-    rowData(sce)$SYMBOL <- geneSymbols
+    SummarizedExperiment::rowData(sce)$SYMBOL <- geneSymbols
     return(sce)
 }
