@@ -75,7 +75,7 @@ preprocess_data_set <- function(
 
 
     # Remove genes not expressed in any cells
-    sce <- sce[rowSums(counts(sce)) > 0, ]
+    sce <- sce[Matrix::rowSums(counts(sce)) > 0, ]
 
     template <- rownames(sce)[1]
 
