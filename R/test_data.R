@@ -219,7 +219,7 @@ preprocess_data_set <- function(
     plots[["p_umap_dblclass"]] <- plotUMAP(sce, colour_by = "scDblFinder.class")
 
     if (isTRUE(return_plots)) {
-        return(list("sce" = sce, "plots" = plots)
+        return(list("sce" = sce, "plots" = plots))
     }
     return(sce)
 }
