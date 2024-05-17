@@ -1,5 +1,5 @@
 
-#' @exports
+#' @export
 get_gene_clusters <- function(splatter_sim) {
 
   rd <- as.data.frame(rowData(splatter_sim))

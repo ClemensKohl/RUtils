@@ -6,7 +6,7 @@
 #'
 #' @returns
 #' Matrix of the vectors longer than the defined cutoff.
-#' @exports
+#' @export
 sphere_cutoff <- function(x, qcutoff = 0.8) {
     xn <- row_norm(x)
     q <- quantile(xn, qcutoff)
@@ -22,7 +22,7 @@ sphere_cutoff <- function(x, qcutoff = 0.8) {
 #'
 #' @returns
 #' Indices of points lying outside of sphere
-#' @exports
+#' @export
 ca_sphere_idx <- function(x, qcutoff = 0.8) {
 
     xn <- row_norm(x)
@@ -35,7 +35,7 @@ ca_sphere_idx <- function(x, qcutoff = 0.8) {
 
 #' prin_coords: principal coordinates (row-vectors)
 #' D: singular vectors.
-#' @exports
+#' @export
 prin_to_std <- function(prin_coords, D) {
     if (is.null(dim(prin_coords))) {
         stopifnot(length(prin_coords) == length(D))

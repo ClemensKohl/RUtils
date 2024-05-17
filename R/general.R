@@ -1,10 +1,10 @@
 
-#' @exports
+#' @export
 is.empty <- function(x) {
     return(isTRUE(length(x) == 0 & !is.null(x)))
 }
 
-#' @exports
+#' @export
 nan_idxs <- function(x, out = "indx") {
     nans <- which(is.nan(x))
     cidx <- floor(nans / nrow(x)) + 1
@@ -21,7 +21,7 @@ nan_idxs <- function(x, out = "indx") {
     return(idxs)
 }
 
-#' @exports
+#' @export
 rand_idx <- function(X, k) {
     idxs <- sample(seq_len(nrow(X)), size = k)
     return(idxs)
@@ -33,7 +33,7 @@ rand_idx <- function(X, k) {
 #' @param f A vector of factors.
 #' @returns
 #' The factors converted to numbers.
-#' @exports
+#' @export
 f2n <- function(f) {
     f <- as.numeric(as.character(f))
     stopifnot(is.numeric(f))

@@ -1,5 +1,5 @@
 #' Convert degrees to radians.
-#' @exports
+#' @export
 deg2rad <- function(x) {
     r <- (x * pi) / 180
     return(r)

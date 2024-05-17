@@ -1,5 +1,5 @@
 #' Plots a heatmap ordered by cell and gene clusters of the logcounts.
-#' @exports
+#' @export
 plot_hm <- function(
   sce,
   cell_clusters,
@@ -105,7 +105,7 @@ plot_hm <- function(
 
 
 
-#' @exports
+#' @export
 make_bic_hm <- function(bic,
                         max_bics = bic@Number,
                         algorithm = "Replace with algorithm name") {
@@ -207,7 +207,7 @@ make_bic_hm <- function(bic,
 # https://stackoverflow.com/a/60857307/1376616
 # TODO: Add documentation!
 # TODO: Better adapt to your plotting with a changing panel size.
-#' @exports
+#' @export
 get_x_y_values <- function(gg_plot) {
     img_dim      <- grDevices::dev.size("cm") * 10
     # Attempt to silence the empty plot window.
@@ -235,7 +235,7 @@ get_x_y_values <- function(gg_plot) {
 # Plot sankey plot of dataframe (columns are steps/nodes)
 # TODO: Add documentation
 #
-#' @exports
+#' @export
 plot_flow <- function(df, rm_redund = TRUE) {
 
     if (isTRUE(rm_redund)) {

@@ -3,7 +3,7 @@
 # TODO: Add documentation
 # TODO: Make more general!
 
-#' @exports
+#' @export
 de_comp <- function(biclust, ref_sce, truth_col, topdegs = 200){
 
 
@@ -48,7 +48,7 @@ de_comp <- function(biclust, ref_sce, truth_col, topdegs = 200){
 # TODO: Add documentation
 # TODO: Make more general!
 
-#' @exports
+#' @export
 plot_de_intersection <- function(intermat){
 
   intermat <- as.data.frame(intermat)

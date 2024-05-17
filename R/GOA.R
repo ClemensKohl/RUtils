@@ -6,7 +6,7 @@
 #' @param org Short name of the organism. "mm" for mouse, "hs" for human.
 #' @returns
 #' data frame with columns "cell_type" and "gene".
-#' @exports
+#' @export
 load_gene_set <- function(set = "CellMarker",
                           org) {
 
@@ -40,7 +40,7 @@ load_gene_set <- function(set = "CellMarker",
 #' Set to Inf if you want to keep all genes.
 #' @returns
 #' Filtered list of gene sets.
-#' @exports
+#' @export
 filter_gene_sets <- function(gene_sets,
                              min_size = 10,
                              max_size = 500) {
@@ -69,7 +69,7 @@ filter_gene_sets <- function(gene_sets,
 #'
 #' @returns
 #' A named list with gene sets as names and genes as vectors.
-#' @exports
+#' @export
 format_gene_sets <- function(gene_sets) {
 
     # Input gene_sets assumed to be a long format data frame
@@ -264,7 +264,7 @@ per_cluster_goa <- function(gene_clusters,
 #'
 #' @returns
 #' The numeric value the string represented.
-#' @exports
+#' @export
 parse_ratio <- function(ratio) {
 
     ratio <- sub("^\\s*", "", as.character(ratio))
