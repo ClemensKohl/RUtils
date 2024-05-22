@@ -254,7 +254,8 @@ getSCEWithSymbols <- function(sce, keytype = "ENTREZID", org.db = org.Mm.eg.db) 
 #' @export
 sce_pbmc3k <- function() {
     set.seed(1234)
-    sce <- TENxPBMCData::TENxPBMCData(dataset = "pbmc3k")
+    
+	sce <- TENxPBMCData::TENxPBMCData(dataset = "pbmc3k")
     rownames(sce) <- make.unique(SummarizedExperiment::rowData(sce)$Symbol_TENx)
     colnames(sce) <- SummarizedExperiment::colData(sce)$Barcode
 
