@@ -7,6 +7,7 @@ plot_hm <- function(
   show_column_title = character(0),
   show_row_title = character(0),
   row_title_rot = 90
+  show_row_names = FALSE
 ) {
     require(SingleCellExperiment)
     require(scran)
@@ -85,7 +86,7 @@ plot_hm <- function(
         show_column_names = FALSE,
         cluster_row_slices = FALSE,
         cluster_column_slices = FALSE,
-        show_row_names = FALSE,
+        show_row_names = show_row_names,
         row_title_side = "left",
         col = col_fun,
         top_annotation = column_ha,
