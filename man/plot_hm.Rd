@@ -10,7 +10,8 @@ plot_hm(
   gene_clusters,
   show_column_title = character(0),
   show_row_title = character(0),
-  row_title_rot = 90
+  row_title_rot = 90,
+  show_row_names = FALSE
 )
 }
 \description{
