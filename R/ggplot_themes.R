@@ -255,3 +255,15 @@ mpi_extend_pal <- function() {
 
     scales::manual_pal(values = mpi_extend_colors)
 }
+
+#' @export
+scale_colour_rnd <- function(...) {
+    require(randomcoloR)
+
+    ggplot2::discrete_scale(
+        scale_name = "mpi_extend",
+        aesthetics = "color",
+        palette = randomcoloR::distinctColorPalette,
+        ...
+    )
+}
