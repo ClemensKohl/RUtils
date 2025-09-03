@@ -75,7 +75,13 @@ preprocess_data_set <- function(
 
   if (is(sce, "Seurat")) {
     sce <- SingleCellExperiment::SingleCellExperiment(
-      list(counts = Seurat::GetAssayData(sce, slot = "count", assay = "RNA")),
+      list(
+        counts = Seurat::GetAssayData(
+          sce,
+          slot = "count",
+          assay = "RNA"
+        )
+      ),
       colData = sce@meta.data
     )
   }
@@ -226,7 +232,10 @@ preprocess_data_set <- function(
     if (min(cnt_bc) < 0) {
       cnt_bc <- cnt_bc - min(cnt_bc)
     }
-    cnt_bc <- cnt_bc[Matrix::rowSums(cnt_bc) > 0, Matrix::colSums(cnt_bc) > 0]
+    cnt_bc <- cnt_bc[
+      Matrix::rowSums(cnt_bc) > 0,
+      Matrix::colSums(cnt_bc) > 0
+    ]
     SingleCellExperiment::counts(sce) <- cnt_bc
     sce <- scuttle::logNormCounts(sce)
   }
