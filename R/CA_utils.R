@@ -8,10 +8,10 @@
 #' Matrix of the vectors longer than the defined cutoff.
 #' @export
 sphere_cutoff <- function(x, qcutoff = 0.8) {
-    xn <- row_norm(x)
-    q <- quantile(xn, qcutoff)
-    x <- x[xn > q, ]
-    return(x)
+  xn <- row_norm(x)
+  q <- quantile(xn, qcutoff)
+  x <- x[xn > q, ]
+  return(x)
 }
 
 #' Returns the indices of all points with a norm outside of a sphere
@@ -24,12 +24,11 @@ sphere_cutoff <- function(x, qcutoff = 0.8) {
 #' Indices of points lying outside of sphere
 #' @export
 ca_sphere_idx <- function(x, qcutoff = 0.8) {
+  xn <- row_norm(x)
+  q <- quantile(xn, qcutoff)
+  idx <- which(xn > q)
 
-    xn <- row_norm(x)
-    q <- quantile(xn, qcutoff)
-    idx <- which(xn > q)
-
-    return(idx)
+  return(idx)
 }
 
 
@@ -37,18 +36,18 @@ ca_sphere_idx <- function(x, qcutoff = 0.8) {
 #' D: singular vectors.
 #' @export
 prin_to_std <- function(prin_coords, D) {
-    if (is.null(dim(prin_coords))) {
-        stopifnot(length(prin_coords) == length(D))
-        std_coords <- prin_coords / D
-    } else {
-        stopifnot(ncol(prin_coords) == length(D))
-        std_coords <- sweep(
-            prin_coords,
-            2,
-            D,
-            "/"
-        )
-    }
+  if (is.null(dim(prin_coords))) {
+    stopifnot(length(prin_coords) == length(D))
+    std_coords <- prin_coords / D
+  } else {
+    stopifnot(ncol(prin_coords) == length(D))
+    std_coords <- sweep(
+      prin_coords,
+      2,
+      D,
+      "/"
+    )
+  }
 
-    return(std_coords)
+  return(std_coords)
 }

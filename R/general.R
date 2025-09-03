@@ -1,30 +1,29 @@
-
 #' @export
 is.empty <- function(x) {
-    return(isTRUE(length(x) == 0 & !is.null(x)))
+  return(isTRUE(length(x) == 0 & !is.null(x)))
 }
 
 #' @export
 nan_idxs <- function(x, out = "indx") {
-    nans <- which(is.nan(x))
-    cidx <- floor(nans / nrow(x)) + 1
-    ridx <- nans %% nrow(x)
+  nans <- which(is.nan(x))
+  cidx <- floor(nans / nrow(x)) + 1
+  ridx <- nans %% nrow(x)
 
-    if (out == "indx") {
-        idxs <- list("ridx" = ridx, "cidx" = cidx)
-    } else if (out == "list") {
-        idxs <- vector(mode = "list", length = length(nans))
-        for (i in seq_len(length(nans))) {
-            idxs[[i]] <- c(ridx[i], cidx[i])
-        }
+  if (out == "indx") {
+    idxs <- list("ridx" = ridx, "cidx" = cidx)
+  } else if (out == "list") {
+    idxs <- vector(mode = "list", length = length(nans))
+    for (i in seq_len(length(nans))) {
+      idxs[[i]] <- c(ridx[i], cidx[i])
     }
-    return(idxs)
+  }
+  return(idxs)
 }
 
 #' @export
 rand_idx <- function(X, k) {
-    idxs <- sample(seq_len(nrow(X)), size = k)
-    return(idxs)
+  idxs <- sample(seq_len(nrow(X)), size = k)
+  return(idxs)
 }
 
 #' Convert a factor to a numeric.
@@ -35,9 +34,8 @@ rand_idx <- function(X, k) {
 #' The factors converted to numbers.
 #' @export
 f2n <- function(f) {
-    f <- as.numeric(as.character(f))
-    stopifnot(is.numeric(f))
+  f <- as.numeric(as.character(f))
+  stopifnot(is.numeric(f))
 
-    return(f)
-
+  return(f)
 }
